@@ -6,7 +6,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "echo'no build steps required, require only testing'"
   },
   "keywords": [],
   "author": "",

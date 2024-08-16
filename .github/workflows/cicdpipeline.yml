@@ -9,9 +9,8 @@ on:
       - main
 
 jobs:
-  build:
+  install:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -24,6 +23,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+  build:
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.6.1'
+
       - name: Run tests
         run: npm test
 
@@ -33,15 +44,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-
     steps:
       - name: Deploy to Server
-        run: echo "Deploying application..." 
+        run: echo "Deploying application..." # Replace with actual deployment commands
 
   notify:
     runs-on: ubuntu-latest
     needs: deploy
-
     steps:
-      - name: Send notification to teams
-        run: echo "Deployment successful, sending notification..."
+      - name: Send deployment notification to Teams
+        run: |
+          if [ ${{ needs.deploy.result }} == 'success' ]; then
+            curl -H 'Content-Type: application/json' -d '{"text": "Deployment successful 🚀"}' ${{ secrets.TEAMS_WEBHOOK_URL }}
+          else
+            curl -H 'Content-Type: application/json' -d '{"text": "Deployment failed ❌"}' ${{ secrets.TEAMS_WEBHOOK_URL }}
+          fi
