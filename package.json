@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "build": "printf 'no build steps required, require only testing\\n'"
   },
   "keywords": [],
