@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "echo'no build steps required, require only testing'"
+    "build": "printf 'no build steps required, require only testing\\n'"
   },
   "keywords": [],
   "author": "",
